@@ -10,8 +10,8 @@ fun main(args: Array<String>) {
         for(j in 0..i - 1)
             if(letterNum.toIntArray()[i] != letterNum.toIntArray()[j])
                 letterNum.add((1..33).random())
-        else
-            continue
+            else
+                continue
     }
 
 
@@ -27,13 +27,42 @@ fun main(args: Array<String>) {
     print("Введите исходный текст: ")
     var source = readln()
 
-    var sourceNum: Array<Int> = arrayOf()
+    var sourceNum = arrayOfNulls<Int>(source.length)
+    var keyNum = arrayOfNulls<Int>(key.length)
 
-    for(i in 1..source.length - 1) {
-        for(j in 0..letter.size - 1)
-            if(letter.toList()[j] == source[i]) {
-                sourceNum[i] = letterNum.toIntArray()[j]
-            }
+
+    if(source.length >= key.length) {
+        for (i in 0..key.length - 1) {
+            for (j in 0..letter.size - 1)
+                if (letter.toList()[j] == key[i]) {
+                    keyNum[i] = letterNum.toIntArray()[j]
+                    //print(letter[letterNum.toIntArray()[j] - (33 - (i+1))])
+                }
+        }
+
+        for (i in 0..source.length - 1) {
+            for (j in 0..letter.size - 1)
+                if (letter.toList()[j] == source[i]) {
+                    sourceNum[i] = letterNum.toIntArray()[j]
+                    if (i < keyNum.size) {
+                        if (j + 1 + keyNum[i]!! < 33)
+                            print(letter[j + keyNum[i]!!])
+                        else
+                            print(letter[(j + keyNum[i]!!) - 33])
+                    } else {
+                        if (j + 1 + keyNum[i - keyNum.size]!! < 33)
+                            print(letter[j + keyNum[i - keyNum.size]!!])
+                        else
+                            print(letter[(j + keyNum[i - keyNum.size]!!) - 33])
+                    }
+                }
+        }
+
+        println()
+
+        println(keyNum.toList())
+        println(sourceNum.toList())
     }
-    print(sourceNum.toList())
+    else
+        println("Исходный текст должен быть больше или равен ключу по количеству символов")
 }
